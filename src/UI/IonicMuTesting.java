@@ -314,8 +314,6 @@ public class IonicMuTesting extends javax.swing.JFrame {
     public void doWork() {
         threadNumbers = Integer.parseInt(numberOfThreadsTF.getText());
         String path = folderPath.getText();
-        //System.out.println(path);
-        path = "E:\\projects\\PizzaHouse3";
         if (path.equals("")) {
             JOptionPane.showMessageDialog(null, "Please Enter a valid path");
 
