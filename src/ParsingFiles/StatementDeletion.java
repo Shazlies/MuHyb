@@ -19,7 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 public class StatementDeletion {
 
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\home\\home.page.ts");
+        File f = new File("E:\\projects\\test\\_Mutant0\\src\\app\\home\\home.page.ts");
         StatementDeletion b = new StatementDeletion();
         b.generateMutant(f,4);
 

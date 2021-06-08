@@ -23,7 +23,7 @@ public class FunctionBlockOperator2 {
 
     public static void main(String[] args) {
 
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+        File f = new File("E:\\projects\\test\\_Mutant0\\src\\app\\about\\about.page.ts");
         FunctionBlockOperator2 b = new FunctionBlockOperator2();
         b.generateMutant(f);
 

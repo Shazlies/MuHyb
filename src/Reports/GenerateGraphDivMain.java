@@ -25,14 +25,14 @@ public class GenerateGraphDivMain {
                 + "    google.charts.setOnLoadCallback(drawChart);\n"
                 + "    function drawChart() {\n"
                 + "      var data = google.visualization.arrayToDataTable([\n"
-                + "        ['Genre', 'Survived', 'Killed', 'Exceptions', 'Syntax Errors', { role: 'annotation' } ],\n";
+                + "        ['Genre', 'Killed', 'Survived', 'Discarded', { role: 'annotation' } ],\n";
         String middleString = "";
         for (int i = 0; i < arr.size(); i++) {
             if(i ==arr.size()-1){
-                middleString += "['"+arr.get(i).getFileName()+"', "+arr.get(i).getSurvivedMutants()+" ,"+arr.get(i).getKillMutant()+" ,"+arr.get(i).getExceptions()+" ,"+arr.get(i).getSyntaxErrors()+", '']\n";
+                middleString += "['"+arr.get(i).getFileName()+"', "+arr.get(i).getKillMutant()+" ,"+arr.get(i).getSurvivedMutants()+" ,"+arr.get(i).getSyntaxErrors()+", '']\n";
             }
             else{
-                middleString += "['"+arr.get(i).getFileName()+"', "+arr.get(i).getSurvivedMutants()+" ,"+arr.get(i).getKillMutant()+" ,"+arr.get(i).getExceptions()+" ,"+arr.get(i).getSyntaxErrors()+", ''],\n";
+                middleString += "['"+arr.get(i).getFileName()+"', "+arr.get(i).getKillMutant()+" ,"+arr.get(i).getSurvivedMutants()+" ,"+arr.get(i).getSyntaxErrors()+", ''],\n";
             }
             
         }
@@ -53,6 +53,7 @@ public class GenerateGraphDivMain {
                 + "        legend: { position: 'top', maxLines: 3 },\n"
                 + "        bar: { groupWidth: '75%' },\n"
                 + "        isStacked: true,\n"
+                +"          colors: [\'blue\', \'red\', \'green\'],\n"
                 + "      };\n"
                 + "      var chart = new google.visualization.ColumnChart(document.getElementById(\"columnchart_values\"));\n"
                 + "      chart.draw(view, options);\n"

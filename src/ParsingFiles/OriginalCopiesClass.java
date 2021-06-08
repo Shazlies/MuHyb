@@ -38,30 +38,41 @@ public class OriginalCopiesClass implements Runnable {
     }
 
     public void takeOrginalCopy(String appDirectoryRoot, int count) {
-        String OrignalCopy = appDirectoryRoot + "\\.Mutant" + count;
+        String OrignalCopy = appDirectoryRoot + "\\_Mutant" + count;
         File f1 = new File(appDirectoryRoot);
         File f2 = new File(OrignalCopy);
 //        System.out.println(f1.getAbsolutePath());
 //        System.out.println(f2.getAbsolutePath());
         try {
             //FileUtils.copyDirectory(f1, f2);
-            FileUtils.copyDirectory(f1, f2, new FileFilter(){
-                public boolean accept(File pathName){
-                    String n = pathName.getName();                    
-                    
-                    if((n.equals(".Mutant")||n.contains(".Mutant")||n.equals("node_modules")||n.equals("MuHubAppsTestFiles")||n.equals("Report")||n.equals("www"))&&pathName.isDirectory()){
+            FileUtils.copyDirectory(f1, f2, new FileFilter() {
+                public boolean accept(File pathName) {
+                    String n = pathName.getName();
+
+                    if ((n.equals("_Mutant") || n.contains("_Mutant") || n.equals("node_modules") || n.equals("MuHubAppsTestFiles") || n.contains("Report") || n.equals("www")) && pathName.isDirectory()) {
                         return false;
                     }
-        //System.out.println(n);
+                    //System.out.println(n);
                     //if
                     return true;
-                    
+
                 }
             }, true);
         } catch (IOException ex) {
             System.out.println("Orignal Copy Failed");
         }
-        System.out.println("Done Copy No. "+(count+1)+"....");
+        System.out.println("Done Copy No. " + (count + 1) + "....");
+        //copyNode_modules(appDirectoryRoot, count);
     }
 
+    public void copyNode_modules(String appDirectoryRoot, int count) {
+        File f1 = new File(appDirectoryRoot + "\\node_modules\\protractor");
+        String OrignalCopy = appDirectoryRoot + "\\_Mutant" + count+"\\node_modules\\protractor";
+        File f2 = new File(OrignalCopy);
+        try {
+            FileUtils.copyDirectory(f1, f2);
+        } catch (IOException ex) {
+            System.out.println("Orignal Copy Failed");
+        }
+    }
 }

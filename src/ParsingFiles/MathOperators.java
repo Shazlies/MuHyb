@@ -17,7 +17,7 @@ public class MathOperators {
     ArrayList<File> originalFiles = new ArrayList<File>(); // this list contains the original files for each mutants
     ArrayList<MutantInformation> mutantInformation = new ArrayList<MutantInformation>(); // this firstPossibilityay contains the information of each mutant
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+        File f = new File("D:\\projects2\\ionic-5-calculator-app\\_Mutant0\\src\\app\\home\\home.page.ts");
         MathOperators mo = new MathOperators();
         mo.generateMutant(f, 4);
     }
@@ -59,24 +59,24 @@ public class MathOperators {
                 }
                 // start scanning the operators between the block of the class only
                 if (startScanning) {
-                    line = line.replaceAll("[+][+]", "@@"); // replace ++ to @@ before scanning for + operator
+                    line = line.replace("++", "@@"); // replace ++ to @@ before scanning for + operator
                     if (line.contains("+")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputPlus, file, lineNumber, "+", "++", "-", "*", "/");
-                        outputPlus += line.replaceAll("[@][@]", "++") + "\n"; // keep updating the string if found 
+                        outputPlus += line.replace("@@", "++") + "\n"; // keep updating the string if found 
                     } else {
-                        outputPlus += line.replaceAll("[@][@]", "++") + "\n"; // keep updating the string if  not found
+                        outputPlus += line.replace("@@", "++") + "\n"; // keep updating the string if  not found
                     }
 
-                    line = line.replaceAll("[@][@]", "++"); // go back and replace @@ to ++ before scanning for - operator
-                    line = line.replaceAll("[-][-]", "@@"); // replace -- to @@ before scanning for + operator
+                    line = line.replace("@@", "++"); // go back and replace @@ to ++ before scanning for - operator
+                    line = line.replace("--", "@@"); // replace -- to @@ before scanning for + operator
                     if (line.contains("-")&&!line.contains("for")&&!line.contains("while")) {
-                        setOperator(line, outputMinus, file, lineNumber, "-", "--", "+", "*", "/");
-                        outputMinus += line.replaceAll("[@][@]", "--") + "\n"; // keep updating the string if found 
+                        setOperator(line, outputMinus, file, lineNumber, "-", "--", "+");
+                        outputMinus += line.replace("@@", "--") + "\n"; // keep updating the string if found 
                     } else {
-                        outputMinus += line.replaceAll("[@][@]", "--") + "\n"; // keep updating the string if  not found
+                        outputMinus += line.replace("@@", "--") + "\n"; // keep updating the string if  not found
                     }
-                    line = line.replaceAll("[@][@]", "--");
-                    line = line.replaceAll("[*][*]", "@@");
+                    line = line.replace("@@", "--");
+                    //line = line.replace("**", "@@");
                     if (line.contains("*")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputTimes, file, lineNumber, "*", "**", "-", "+", "/");
                         //setTimesOperator(line, number, outputTimes, file, lineNumber);
@@ -85,7 +85,7 @@ public class MathOperators {
                     } else {
                         outputTimes += line + "\n"; // keep updating the string if  not found
                     }
-                    line = line.replaceAll("[@][@]", "**");
+                   // line = line.replaceAll("[@][@]", "**");
                     if (line.contains("/")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputDivide, file, lineNumber, "/", "", "-", "*", "+");
                         outputDivide += line + "\n"; // keep updating the string if found 
@@ -169,23 +169,23 @@ public class MathOperators {
                             thirdPossibility[j] = "$^%&%&";
                         } else {
                             // change the operator to other operators 
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
-                            secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + secondOperator;
-                            thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + thirdOperator;
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
+                            secondPossibility[j] += partLine.replace("@@", operatorReplacement) + secondOperator;
+                            thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + thirdOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        secondPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
+        line = line.replace("@@", operatorReplacement);
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {
@@ -242,19 +242,19 @@ public class MathOperators {
                             // change the operator to other operators 
                         } else {
 
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
+        line = line.replace("@@", operatorReplacement);
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {

@@ -17,6 +17,13 @@ public class MutationResults {
     private int totalMutants;
     private int syntaxErrors;
 
+    @Override
+    public String toString() {
+        System.out.println("MutationResults");
+        return "MutationResults{" + "fileName=" + fileName + ", killMutant=" + killMutant + ", survivedMutants=" + survivedMutants + ", exceptions=" + exceptions + ", totalMutants=" + totalMutants + ", syntaxErrors=" + syntaxErrors + '}';
+    }
+
+    
     
     public void increaseSurvived(){
      survivedMutants++;   

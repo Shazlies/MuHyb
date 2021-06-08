@@ -24,7 +24,7 @@ public class MathOperators3 {
     ArrayList<MutantInformation> arr = new ArrayList<MutantInformation>();
 
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+        File f = new File("E:\\projects\\test\\_Mutant0\\src\\app\\about\\about.page.ts");
         MathOperators3 m = new MathOperators3();
         m.generateMutant(f);
     }

@@ -195,17 +195,17 @@ public class LoopOperator {
         if (line.contains("for")) {
             String[] tokens = line.split("[;]");
             if (tokens.length > 1) {
-                String newLine = tokens[0] + ";" + "true" + ";" + tokens[2];
+               // String newLine = tokens[0] + ";" + "true" + ";" + tokens[2];
                 //System.out.println(newLine);
-                ifStatementOperator.add(output + newLine + "\n");
-                originalFiles.add(file);
+               // ifStatementOperator.add(output + newLine + "\n");
+               // originalFiles.add(file);
                 String newLine2 = tokens[0] + ";" + "false" + ";" + tokens[2];
                 ifStatementOperator.add(output + newLine2 + "\n");
                 originalFiles.add(file);
                 //System.out.println(newLine2);
-                MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
-                mutantInformation.add(m);
-                m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
+                //MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
+                //mutantInformation.add(m);
+                MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
                 mutantInformation.add(m);
             }
 
@@ -216,27 +216,27 @@ public class LoopOperator {
             if (tokens.length > 1) {
 
                 if (tokens[tokens.length - 1].contains("{")) {
-                    String newLine = tokens[0] + "(" + "true" + "){";
-                    ifStatementOperator.add(output + newLine + "\n");
-                    originalFiles.add(file);
+                   // String newLine = tokens[0] + "(" + "true" + "){";
+                    //ifStatementOperator.add(output + newLine + "\n");
+                    //originalFiles.add(file);
                     String newLine2 = tokens[0] + "(" + "false" + "){";
                     ifStatementOperator.add(output + newLine2 + "\n");
                     originalFiles.add(file);
-                    MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
-                    mutantInformation.add(m);
-                    m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
+                   // MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
+                    //mutantInformation.add(m);
+                    MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
                     mutantInformation.add(m);
 
                 } else {
-                    String newLine = tokens[0] + "(" + "true" + ")";
-                    ifStatementOperator.add(output + newLine + "\n");
-                    originalFiles.add(file);
+                    //String newLine = tokens[0] + "(" + "true" + ")";
+                    //ifStatementOperator.add(output + newLine + "\n");
+                    //originalFiles.add(file);
                     String newLine2 = tokens[0] + "(" + "false" + ")";
                     ifStatementOperator.add(output + newLine2 + "\n");
                     originalFiles.add(file);
-                    MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
-                    mutantInformation.add(m);
-                    m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
+                    //MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine);
+                   // mutantInformation.add(m);
+                    MutantInformation m = new MutantInformation(lineNumber, "Loop Operator", line, newLine2);
                     mutantInformation.add(m);
                 }
             }

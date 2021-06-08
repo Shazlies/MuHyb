@@ -12,10 +12,12 @@ package FilesFounder;
 public class FileAsString {
     private String fileName;
     private String fileCode;
+    private String fileExtension;
     
-    public FileAsString (String fileCode, String fileName){
+    public FileAsString (String fileCode, String fileName, String fileExtension){
         this.fileCode = fileCode;
         this.fileName = fileName;
+        this.fileExtension = fileExtension;
     }
 
     /**
@@ -44,5 +46,19 @@ public class FileAsString {
      */
     public void setFileCode(String fileCode) {
         this.fileCode = fileCode;
+    }
+
+    /**
+     * @return the fileExtension
+     */
+    public String getFileExtension() {
+        return fileExtension;
+    }
+
+    /**
+     * @param fileExtension the fileExtension to set
+     */
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 }

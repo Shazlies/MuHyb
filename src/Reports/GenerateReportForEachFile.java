@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -141,7 +142,7 @@ public class GenerateReportForEachFile {
                 + "                                <table class=\"table table-striped table-bordered\" >\n"
                 + "                                    <thead>\n"
                 + "                                        <tr>\n"
-                + "                                            <th>Code</th>"+"<span class=\"badge badge-info\">Killed</span>"+"<span class=\"badge badge-error\">Survived</span>"+"<span class=\"badge badge-warning\">Exceptions</span>"+"<span class=\"badge badge-success\">Discarded</span>"
+                + "                                            <th>Code</th>"+"<span class=\"badge badge-info\">Killed</span>"+"<span class=\"badge badge-error\">Survived</span>"+"<span class=\"badge badge-success\">Discarded</span>"
                 + "                                            <th>Mutants</th>\n"
                 + "                                        </tr>\n"
                 + "                                    </thead>\n"
@@ -343,9 +344,9 @@ public class GenerateReportForEachFile {
             restString += "<td>" + arr.get(i).getLineCode() + "</td>";
             restString += "<td>" + arr.get(i).getOperator() + "</td>";
             restString += "<td>" + arr.get(i).getState() + "</td>";
-            restString += "<td><div  class=\"tooltip\">Show LOC<div class=\"top\"> <h3>" + arr.get(i).getOriginalLine() + "</h3><i></i></td>";
+            restString += "<td><div  class=\"tooltip\">Show LOC<div class=\"top\"> <h3>" + StringEscapeUtils.escapeHtml4(arr.get(i).getOriginalLine()) + "</h3><i></i></td>";
 
-            restString += "<td><div class=\"tooltip\">Show LOC<div class=\"top\"> <h3>" + arr.get(i).getMutationLine() + "</h3><i></i></td>";
+            restString += "<td><div class=\"tooltip\">Show LOC<div class=\"top\"> <h3>" + StringEscapeUtils.escapeHtml4(arr.get(i).getMutationLine()) + "</h3><i></i></td>";
             restString += "</tr>";
         }
 

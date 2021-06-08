@@ -17,54 +17,61 @@ public class ResultsSort {
     ArrayList<Results> mutationResults = new ArrayList<Results>();
     ArrayList<ResultsForEachFile> resultsForEachFile = new ArrayList<ResultsForEachFile>();
 
+    
+    
+    
+    
     public ResultsSort(ArrayList<Results> mainResults, ArrayList<Results> mutationResults, ArrayList<ResultsForEachFile> resultsForEachFile) {
+        
         this.mainResults = mainResults;
         this.mutationResults = mutationResults;
         this.resultsForEachFile = resultsForEachFile;
+        System.out.println("mainResults "+mainResults.size());
+        System.out.println("mutationResults "+mutationResults.size());
+        System.out.println("resultsForEachFile "+resultsForEachFile.size());
+        
         System.out.println("MainResultsSize: " + mainResults.size() + " MutationResultsSize: " + mutationResults.size());
     }
 
     public ArrayList<MutationResults> sortMutationResults() {
-        System.out.println();
         ArrayList<MutationResults> mutRes = new ArrayList<MutationResults>();
-
+        System.out.println(mutationResults.size());
         for (int i = 0; i < mutationResults.size(); i++) {
-            
+            if(mutationResults.get(i)==null)
+                break;
+            System.out.println("SHAZLY "+mutationResults.get(i));
             Results s;
             s = mutationResults.get(i);
-            System.out.println(s+" nnnnnnnnnnnnnnnnnnnnnnn");
+            System.out.println(s + " nnnnnnnnnnnnnnnnnnnnnnn");
             //System.out.println("Test this result: "+s);
+            //COBACK
             int index = getMainResult(mainResults, s);
             System.out.println(index);
-            if (index != -1) {
-
-                int ind = getMutationResult(mutRes, mainResults.get(index));
+            //if (index != -1) {
+                //IMPORTANT
+                int ind = getMutationResult(mutRes, s);
                 // System.out.println("ind: "+ind);
                 if (ind == -1) {
                     // add new mutationResults object
-
                     MutationResults mr = new MutationResults();
-                    mr.setFileName(mainResults.get(index).getFileName());
+                    //mr.setFileName(mainResults.get(index).getFileName());
+                    //IMPORTANT
+                    mr.setFileName(s.getFileName());
                     // check if killed or not
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("FAILED")) {
                         ///resultsForEachFile
-
                         mr.increaseKilled();
                     }
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("SUCCESS")) {
-
                         mr.increaseSurvived();
                     }
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("DISCONNECTED")) {
-
                         mr.increaseExceptions();
                     }
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("ERROR")) {
-
                         mr.increaseSyntaxErrors();
                     }
                     mutRes.add(mr);
-
                 } else {
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("FAILED")) {
 
@@ -80,29 +87,41 @@ public class ResultsSort {
                     if (mutationResults.get(i).getTestCase().equalsIgnoreCase("ERROR")) {
                         mutRes.get(ind).increaseSyntaxErrors();
                     }
-                    
 
                 }
-            }
+            //}
         }
         System.out.println("*********************");
         for (int i = 0; i < mutRes.size(); i++) {
-            System.out.println("Filename: " + mutRes.get(i).getFileName() + " killed: " + mutRes.get(i).getKillMutant() + " Survived: " + mutRes.get(i).getSurvivedMutants() + " Diconnected: " + mutRes.get(i).getExceptions()+ " Sytax Errors: "+mutRes.get(i).getSyntaxErrors());
+            System.out.println("Filename: " + mutRes.get(i).getFileName() + " killed: " + mutRes.get(i).getKillMutant() + " Survived: " + mutRes.get(i).getSurvivedMutants() + " Diconnected: " + mutRes.get(i).getExceptions() + " Sytax Errors: " + mutRes.get(i).getSyntaxErrors());
+            
         }
         System.out.println("*****************");
         return mutRes;
     }
 
     public int getMainResult(ArrayList<Results> mainResults, Results rs) {
+        if (rs.getFileName().charAt(rs.getFileName().length()-1)=='l') {
+            for (int i = 0; i < mainResults.size(); i++) {
+                System.out.println("fromgetMainResults " + mainResults.get(i).getFileName() + "   " + rs.getFileName());
 
-        for (int i = 0; i < mainResults.size(); i++) {
-            //System.out.println("fromgetMainResults "+mainResults.get(i).getFileName()+"   "+rs.getFileName());
-            if (mainResults.get(i).getFileName().equals(rs.getFileName())) {
-                //  System.out.println("return: "+i);
-                return i;
+                if (mainResults.get(i).getFileName().equals("E2E Files")) {
+                    //  System.out.println("return: "+i);
+                    return i;
+                }
+            }
+        } else {
+            for (int i = 0; i < mainResults.size(); i++) {
+                System.out.println("fromgetMainResults " + mainResults.get(i).getFileName() + "   " + rs.getFileName());
+
+                if (mainResults.get(i).getFileName().equals(rs.getFileName())) {
+                    //  System.out.println("return: "+i);
+                    return i;
+                }
             }
         }
-        return -1;
+            return -1;
+        
     }
 
     public int getMutationResult(ArrayList<MutationResults> mutationResults, Results rs) {

@@ -63,27 +63,27 @@ public class RelationalOperator {
                 }
                 // start scanning the operators between the block of the class only
                 if (startScanning) {
-                    line = line.replaceAll("[>][=]", "@@"); // replace >= to @@ before scanning for > operator
-                    line = line.replaceAll("[=][>]", "##"); // replace >= to @@ before scanning for > operator
+                    line = line.replace(">=", "@@"); // replace >= to @@ before scanning for > operator
+                    line = line.replace("=>", "##"); // replace >= to @@ before scanning for > operator
                     if (line.contains(">")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputGreater, file, lineNumber, ">", ">=", "<", "<=", ">=");
-                        line = line.replaceAll("[@][@]", ">="); // go back and replace @@ to >= before scanning for < operator
-                        line = line.replaceAll("[#][#]", "=>"); // go back and replace @@ to >= before scanning for < operator
+                        line = line.replace("@@", ">="); // go back and replace @@ to >= before scanning for < operator
+                        line = line.replace("##", "=>"); // go back and replace @@ to >= before scanning for < operator
                         outputGreater += line + "\n"; // keep updating the string if found 
                     } else {
-                        outputGreater += line.replaceAll("[@][@]", ">=") + "\n"; // keep updating the string if  not found
+                        outputGreater += line.replace("@@", ">=") + "\n"; // keep updating the string if  not found
                     }
 
-                    line = line.replaceAll("[@][@]", ">="); // go back and replace @@ to >= before scanning for < operator
-                    line = line.replaceAll("[#][#]", "=>"); // go back and replace @@ to >= before scanning for < operator
-                    line = line.replaceAll("[<][=]", "@@"); // replace <= to @@ before scanning for < operator
+                    line = line.replace("@@", ">="); // go back and replace @@ to >= before scanning for < operator
+                    line = line.replace("##", "=>"); // go back and replace @@ to >= before scanning for < operator
+                    line = line.replace("<=", "@@"); // replace <= to @@ before scanning for < operator
                     if (line.contains("<")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputLess, file, lineNumber, "<", "<=", ">", ">=", "<=");
-                        outputLess += line.replaceAll("[@][@]", "<=") + "\n"; // keep updating the string if found 
+                        outputLess += line.replace("@@", "<=") + "\n"; // keep updating the string if found 
                     } else {
-                        outputLess += line.replaceAll("[@][@]", "<=") + "\n"; // keep updating the string if  not found
+                        outputLess += line.replace("@@", "<=") + "\n"; // keep updating the string if  not found
                     }
-                    line = line.replaceAll("[@][@]", "<=");
+                    line = line.replace("@@", "<=");
                     if (line.contains(">=")&&!line.contains("for")&&!line.contains("while")) {
                         setOperator(line, outputGreaterOrEqual, file, lineNumber, ">=", "", ">", "<", "<=");
                         //setTimesOperator(line, number, outputTimes, file, lineNumber);
@@ -158,26 +158,26 @@ public class RelationalOperator {
                             thirdPossibility[j] = "$^%&%&";
                         } else {
                             // change the operator to other operators 
-                            partLine = partLine.replaceAll("[#][#]", "=>");
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
-                            secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + secondOperator;
-                            thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + thirdOperator;
+                            partLine = partLine.replace("[#][#]", "=>");
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
+                            secondPossibility[j] += partLine.replace("@@", operatorReplacement) + secondOperator;
+                            thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + thirdOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        partLine = partLine.replaceAll("[#][#]", "=>");
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        partLine = partLine.replace("[#][#]", "=>");
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        secondPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
-        line = line.replaceAll("[#][#]", "=>");
+        line = line.replace("@@", operatorReplacement);
+        line = line.replace("[#][#]", "=>");
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {

@@ -20,7 +20,7 @@ import org.apache.commons.io.FileUtils;
  */
 public class GenerateTestFiles {
     
-    public void generateFiles(ArrayList<File> testFiles, String projectPath){
+    public void generateFiles2(ArrayList<File> testFiles, String projectPath){
         //int numberOfThreads = 4;
         projectPath += "//MuHubAppsTestFiles";
         File file = new File(projectPath+"//Original");

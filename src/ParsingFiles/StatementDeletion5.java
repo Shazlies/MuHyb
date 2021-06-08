@@ -27,7 +27,7 @@ public class StatementDeletion5 {
      * the GenerateMutantFiles class to generate real files
      */
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+        File f = new File("E:\\projects\\test\\_Mutant0\\src\\app\\about\\about.page.ts");
         StatementDeletion5 b = new StatementDeletion5();
         b.generateMutant(f);
 
@@ -126,23 +126,23 @@ public class StatementDeletion5 {
                             thirdPossibility[j] = "$^%&%&";
                         } else {
                             // change the operator to other operators 
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
-                            secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + secondOperator;
-                            thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + thirdOperator;
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
+                            secondPossibility[j] += partLine.replace("@@", operatorReplacement) + secondOperator;
+                            thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + thirdOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        secondPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
-                        thirdPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        secondPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
+                        thirdPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
+        line = line.replace("@@", operatorReplacement);
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {

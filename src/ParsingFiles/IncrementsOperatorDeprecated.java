@@ -23,7 +23,7 @@ public class IncrementsOperatorDeprecated {
     static int counter = 0; // counter for Mutant1 Mutant2 ...
 
     public void mutateOperators(String oldOperator, String newOperator, String appDirectoryRoot, File OriginalFile) throws IOException {
-        String appMutantRoot = appDirectoryRoot + "\\.Mutant0"; // App root + "\\.Mutant"
+        String appMutantRoot = appDirectoryRoot + "\\_Mutant0"; // App root + "\\_Mutant"
         String filePath = OriginalFile.getAbsolutePath(); // Original file path
         //System.out.println(filePath + " filePath");
         String filePathWithoutFileName = filePath.replace(OriginalFile.getName(), ""); // File path without file name
@@ -118,7 +118,7 @@ System.out.println("here22");
     }
 
     public void takeOrginalCopy(String appDirectoryRoot) {
-        String OrignalCopy = appDirectoryRoot + "\\.Mutant0";
+        String OrignalCopy = appDirectoryRoot + "\\_Mutant0";
         File f1 = new File(appDirectoryRoot);
         File f2 = new File(OrignalCopy);
 //        System.out.println(f1.getAbsolutePath());

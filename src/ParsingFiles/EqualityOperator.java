@@ -21,7 +21,7 @@ public class EqualityOperator {
     ArrayList<MutantInformation> mutantInformation = new ArrayList<MutantInformation>(); // this firstPossibilityay contains the information of each mutant
 
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+            File f = new File("D:\\projects2\\ionic-5-calculator-app\\_Mutant0\\src\\app\\home\\home.page.ts");
         EqualityOperator eo = new EqualityOperator();
         eo.generateMutant(f, 4);
     }
@@ -39,6 +39,8 @@ public class EqualityOperator {
         String beforeClass = ""; // string to save all text before the class word
         String outputEqualEqual = "";
         String outputNotEqual = "";
+        String outputEqualEqualEqual = "";
+        String outputNotEqualEqual = "";
         boolean startScanning = false;
         try {
             Scanner sc = new Scanner(file);
@@ -58,44 +60,58 @@ public class EqualityOperator {
                     startScanning = true;
                     outputEqualEqual += beforeClass;
                     outputNotEqual += beforeClass;
+                    outputEqualEqualEqual += beforeClass;
+                    outputNotEqualEqual += beforeClass;
                 } else if (!line.contains("class") && !startScanning) {
                     beforeClass += line + "\n";
                 }
                 // start scanning the operators between the block of the class only
+                
                 if (startScanning) {
-                    line = line.replaceAll("[=][=][=]", "@@"); // replace ++ to @@ before scanning for + operator
-                    line = line.replaceAll("[!][=][=]", "##"); // replace ++ to @@ before scanning for + operator
+                    
+                    line = line.replace("===", "@@@"); // replace ++ to @@ before scanning for + operator
+                    line = line.replace("!==", "###"); // replace ++ to @@ before scanning for + operator
                     if (line.contains("==")) {
                         setOperator(line, outputEqualEqual, file, lineNumber, "==", "", "!=" );
-                        line = line.replaceAll("[@][@]", "===");
-                        line = line.replaceAll("[#][#]", "!==");
+                        line = line.replace("@@@", "===");
+                        line = line.replace("###", "!==");
                         outputEqualEqual += line + "\n"; // keep updating the string if found 
                     } else {
-                        line = line.replaceAll("[@][@]", "===");
-                        line = line.replaceAll("[#][#]", "!==");
-                        outputEqualEqual += line.replaceAll("[@][@]", "===") + "\n"; // keep updating the string if  not found
+                        line = line.replace("@@@", "===");
+                        line = line.replace("###", "!==");
+                        outputEqualEqual += line+ "\n"; // keep updating the string if  not found
                     }
-                    line = line.replaceAll("[@][@]", "===");
-                    line = line.replaceAll("[#][#]", "!==");
-                    line = line.replaceAll("[!][=][=]", "@@"); // replace -- to @@ before scanning for + operator
+                    
+                    line = line.replace("@@@", "===");
+                    line = line.replace("###", "!==");
+                    line = line.replace("===", "@@@"); // replace -- to @@ before scanning for + operator
+                    line = line.replace("!==", "###"); // replace -- to @@ before scanning for + operator
                     if (line.contains("!=")) {
+                        
                         setOperator(line, outputNotEqual, file, lineNumber, "!=", "!==", "==");
-                        outputNotEqual += line.replaceAll("[@][@]", "!==") + "\n"; // keep updating the string if found 
+                        line = line.replace("@@@", "===");
+                    line = line.replace("###", "!==");
+                        outputNotEqual += line.replace("@@@", "===") + "\n"; // keep updating the string if found 
                     } else {
-                        outputNotEqual += line.replaceAll("[@][@]", "!==") + "\n"; // keep updating the string if  not found
+                        line = line.replace("@@@", "===");
+                    line = line.replace("###", "!==");
+                        outputNotEqual += line.replace("###", "!==") + "\n"; // keep updating the string if  not found
                     }
-                    line = line.replaceAll("[@][@]", "!==");
+                    line = line.replace("###", "!==");
+                    line = line.replace("@@@", "===");
+                    
                     if (line.contains("===")) {
-                        setOperator(line, outputEqualEqual, file, lineNumber, "===", "", "!==" );
-                        outputEqualEqual += line + "\n"; // keep updating the string if found 
+                        
+                        setOperator(line, outputEqualEqualEqual, file, lineNumber, "===", "", "!==" );
+                        outputEqualEqualEqual += line + "\n"; // keep updating the string if found 
                     } else {
-                        outputEqualEqual += line + "\n"; // keep updating the string if  not found
+                        outputEqualEqualEqual += line + "\n"; // keep updating the string if  not found
                     }
                     if (line.contains("!==")) {
-                        setOperator(line, outputNotEqual, file, lineNumber, "!==", "", "===");
-                        outputNotEqual += line + "\n"; // keep updating the string if found 
+                        setOperator(line, outputNotEqualEqual, file, lineNumber, "!==", "", "===");
+                        outputNotEqualEqual += line + "\n"; // keep updating the string if found 
                     } else {
-                        outputNotEqual += line + "\n"; // keep updating the string if  not found
+                        outputNotEqualEqual += line + "\n"; // keep updating the string if  not found
                     }
 
                 }
@@ -151,19 +167,19 @@ public class EqualityOperator {
                             firstPossibility[j] = "$^%&%&";
                         } else {
                             // change the operator to other operators 
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
+        line = line.replace("@@", operatorReplacement);
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {

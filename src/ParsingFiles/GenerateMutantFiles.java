@@ -37,10 +37,10 @@ public class GenerateMutantFiles {
         for (int i = 0; i < mutants.size(); i++) {
             try {
                 String filePath = files.get(i).getAbsolutePath();
-                int x = filePath.indexOf("\\.Mutant0");
+                int x = filePath.indexOf("\\_Mutant0");
                 String projectPath = filePath.substring(0, x);
                 String tempPath = filePath.substring(0, x);
-                projectPath += "\\.Mutant" + "\\Mutant" + mutantNumber;
+                projectPath += "\\_Mutant" + "\\Mutant" + mutantNumber;
                 File originalFile = new File(projectPath + "\\Orignal");
                 File mutantFile = new File(projectPath + "\\Mutant");
                 File toCopyFrom = new File(tempPath + "\\" + files.get(i).getName());
@@ -57,7 +57,7 @@ public class GenerateMutantFiles {
 
                         String projectTempPath = filePath.substring(0, x);
                         for (int j = 0; j < threadNumbers; j++) {
-                            File mutant1 = new File(projectTempPath + "\\.Mutant\\Mutant"+j+".txt");
+                            File mutant1 = new File(projectTempPath + "\\_Mutant\\Mutant"+j+".txt");
                             pw = new PrintWriter(mutant1);
                             pw.close();
                         }
@@ -84,8 +84,8 @@ public class GenerateMutantFiles {
                 String directoryToPlantIn = files.get(i).getAbsolutePath();
                 String projectTempPath = filePath.substring(0, x);
                 FileWriter fw = null;
-                fw = new FileWriter(projectTempPath + "\\.Mutant\\Mutant"+mutantTurn+".txt", true);
-                directoryToPlantIn = directoryToPlantIn.replace(".Mutant0", ".Mutant"+mutantTurn);
+                fw = new FileWriter(projectTempPath + "\\_Mutant\\Mutant"+mutantTurn+".txt", true);
+                directoryToPlantIn = directoryToPlantIn.replace("_Mutant0", "_Mutant"+mutantTurn);
 //                
 //                switch (mutantTurn) {
 //                    case 0:

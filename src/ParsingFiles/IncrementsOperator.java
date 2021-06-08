@@ -66,7 +66,7 @@ public class IncrementsOperator {
                     }
 
                     if (line.contains("--")&&!line.contains("for")) {
-                        setOperator(line, outputDecrement, file, lineNumber, "--", "", "+-");
+                        setOperator(line, outputDecrement, file, lineNumber, "--", "", "++");
                         outputDecrement += line + "\n"; // keep updating the string if found 
                     } else {
                         outputDecrement += line + "\n"; // keep updating the string if  not found
@@ -123,19 +123,19 @@ public class IncrementsOperator {
                             // change the operator to other operators 
                         } else {
 
-                            firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + fisrtOperator;
+                            firstPossibility[j] += partLine.replace("@@", operatorReplacement) + fisrtOperator;
                         }
 
                     } else {
                         // add the original operator to the rest of each elemnt
-                        firstPossibility[j] += partLine.replaceAll("[@][@]", operatorReplacement) + originalOperator;
+                        firstPossibility[j] += partLine.replace("@@", operatorReplacement) + originalOperator;
                     }
 
                 }
                 counter++;
             }
         }
-        line = line.replaceAll("[@][@]", operatorReplacement);
+        line = line.replace("@@", operatorReplacement);
         for (int i = 0; i < number; i++) {
             // add mutants but not the ones that contains $^%&%& sign we added before [it mean the operator between ' or "]
             if (!firstPossibility[i].contains("$^%&%&")) {

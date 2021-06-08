@@ -17,7 +17,7 @@ import java.util.Scanner;
 public class StatementDeletion3 {
 
     public static void main(String[] args) {
-        File f = new File("E:\\projects\\test\\.Mutant0\\src\\app\\about\\about.page.ts");
+        File f = new File("E:\\projects\\test\\_Mutant0\\src\\app\\about\\about.page.ts");
         StatementDeletion3 b = new StatementDeletion3();
         b.generateMutant(f);
 

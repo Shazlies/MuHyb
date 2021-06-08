@@ -100,8 +100,14 @@ public class ResultsForEachFile {
         this.mutationLine = mutationLine;
     }
     
-    public String toString(){
-         return " State "+ state+" lineCode "+ lineCode+" operator "+ operator+" originalline "+ originalLine+" mutationline "+ mutationLine;
+//    public String toString(){
+//        System.out.println("RsultsForEachFile");
+//         return " State "+ state+" lineCode "+ lineCode+" operator "+ operator+" originalline "+ originalLine+" mutationline "+ mutationLine;
+//    }
+
+    @Override
+    public String toString() {
+        return "ResultsForEachFile{" + "state=" + state + ", lineCode=" + lineCode + ", operator=" + operator + ", originalLine=" + originalLine + ", mutationLine=" + mutationLine + ", fileName=" + fileName + '}';
     }
     
 }

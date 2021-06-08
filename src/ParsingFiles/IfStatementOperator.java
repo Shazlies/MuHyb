@@ -24,7 +24,11 @@ public class IfStatementOperator {
     ArrayList<MutantInformation> mutantInformation = new ArrayList<MutantInformation>(); // this firstPossibilityay contains the information of each mutant
 
 
-
+public static void main(String[] args) {
+        File f = new File("D:\\projects\\tic-tac-toe\\_Mutant0\\src\\app\\home\\home.page.ts");
+        IfStatementOperator eo = new IfStatementOperator();
+        eo.generateMutant(f, 4);
+    }
     /*
      * This method takes as an input to find the mathematical operators
      * and change it to other operators then it sends all the possible strings to
@@ -61,6 +65,7 @@ public class IfStatementOperator {
                     ///
                     if (line.length() >= 5) {
                         if (line.contains("if")) {
+                            System.out.println("yeah");
                             String pattern = "\\b" + "if" + "\\b";
                             Pattern p = Pattern.compile(pattern);
                             Matcher m = p.matcher(line);
@@ -71,11 +76,12 @@ public class IfStatementOperator {
                                 while (m.find()) {
                                     //System.out.println(line);
                                     line = line.replaceFirst("if", "##");
+                                    System.out.println(line);
                                     changeInsideIf(line, output, file, lineNumber);
                                     //System.out.println(line);
 
                                 }
-                                output += line.replaceAll("[#][#]", "if") + "\n";
+                                output += line.replace("##", "if") + "\n";
                                 //System.out.println(m.find());
                             } else {
                                 output += line + "\n";
@@ -192,17 +198,17 @@ public class IfStatementOperator {
 //            System.out.println("end: " + end);
             if (!line.substring(start + 1, end).equals("true") &&! line.substring(start + 1, end).equals("false")) {
                 String changedtoTrue = line.substring(0, start + 1) + "true" + line.substring(end, line.length());
-                changedtoTrue = changedtoTrue.replaceAll("[#][#]", "if");
+                changedtoTrue = changedtoTrue.replace("##", "if");
                 ifStatementOperator.add(output + "\n" + changedtoTrue);
                 originalFiles.add(file);
-                MutantInformation m = new MutantInformation(lineNumber, "If Statement Operator", line.replaceAll("[#][#]", "if"), changedtoTrue);
+                MutantInformation m = new MutantInformation(lineNumber, "If Statement Operator", line.replace("##", "if"), changedtoTrue);
                 mutantInformation.add(m);
 //            System.out.println(changedtoTrue);
                 String changedtoFalse = line.substring(0, start + 1) + "false" + line.substring(end, line.length());
-                changedtoFalse = changedtoFalse.replaceAll("[#][#]", "if");
+                changedtoFalse = changedtoFalse.replace("##", "if");
                 ifStatementOperator.add(output + "\n" + changedtoFalse);
                 originalFiles.add(file);
-                m = new MutantInformation(lineNumber, "If Statement Operator", line.replaceAll("[#][#]", "if"), changedtoFalse);
+                m = new MutantInformation(lineNumber, "If Statement Operator", line.replace("##", "if"), changedtoFalse);
                 mutantInformation.add(m);
             }
 

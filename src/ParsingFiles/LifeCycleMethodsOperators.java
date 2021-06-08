@@ -14,7 +14,7 @@ import java.util.Scanner;
  *
  * @author Home
  */
-public class FunctionBlockOperator {
+public class LifeCycleMethodsOperators {
 
     ArrayList<String> functionBlockOperator = new ArrayList<String>(); // this list contains the output of mutants
     ArrayList<File> originalFiles = new ArrayList<File>(); // this list contains the original files for each mutants
@@ -22,8 +22,8 @@ public class FunctionBlockOperator {
 
     public static void main(String[] args) {
         File f = new File("E:\\projects\\PizzaHouses\\_Mutant0\\src\\app\\pizza\\pizza.page.ts");
-        FunctionBlockOperator b = new FunctionBlockOperator();
-        b.generateMutant(f,4);
+        LifeCycleMethodsOperators b = new LifeCycleMethodsOperators();
+        b.generateMutant(f, 4);
     }
 
     public void generateMutant(File file, int threadNumbers) {
@@ -49,7 +49,7 @@ public class FunctionBlockOperator {
                 // ignore all functionBlockOperator before the class word
                 if (line.contains("class") && !startScanning) {
                     startScanning = true;
-                    output += beforeClass + line+"\n";
+                    output += beforeClass + line + "\n";
                     continue;
                 } else if (!line.contains("class") && !startScanning) {
                     beforeClass += line + "\n";
@@ -57,7 +57,7 @@ public class FunctionBlockOperator {
                 // start scanning the functionBlockOperator between the block of the class only
                 if (startScanning) {
                     //System.out.println(line);
-                    if (line.contains("{") && !startMethod&&(!line.contains("ngOnInit")&&!line.contains("ngOnDestroy")&&!line.contains("ionViewWillEnter")&&!line.contains("ionViewDidEnter")&&!line.contains("ionViewWillLeave")&&!line.contains("ionViewDidLeave"))) {
+                    if (line.contains("{") && !startMethod&&(line.contains("ngOnInit")||line.contains("ngOnDestroy")||line.contains("ionViewWillEnter")||line.contains("ionViewDidEnter")||line.contains("ionViewWillLeave")||line.contains("ionViewDidLeave"))) {
                         startMethod = true;
                         //System.out.println("00000000000000000000");
                         cont++;
@@ -142,7 +142,7 @@ public class FunctionBlockOperator {
             // " { }");
         }
         if (!rest.isEmpty()) {
-            MutantInformation m = new MutantInformation(lineNumber, "Empty Function Block Operator", "{ ... }", "{ }");
+            MutantInformation m = new MutantInformation(lineNumber, "Life Cycle Function Removal Operator", "{ ... }", "{ }");
             mutantInformation.add(m);
             functionBlockOperator.set(cont, functionBlockOperator.get(cont) + "\n" + rest + " { }" + "\n");
         }

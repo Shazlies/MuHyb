@@ -22,6 +22,7 @@ public class GenerateReports {
 
     ArrayList<FileResults> arr = new ArrayList<FileResults>();
     private ArrayList<FileAsString> fileCode = new ArrayList<FileAsString>();
+    private ArrayList<FileAsString> htmlFileCode = new ArrayList<FileAsString>();
     String firstHalf1;
     String firstHalf2;
 
@@ -37,6 +38,7 @@ public class GenerateReports {
     DecimalFormat df;
 
     public GenerateReports(String totalTime, String avgTimePerMutant) {
+        System.out.println("hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii");
         df = new DecimalFormat("#.##");
         firstHalf1 = "<!DOCTYPE html>\n"
                 + "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n"
@@ -115,7 +117,6 @@ public class GenerateReports {
                 + "                                            <th>Executed</th>\n"
                 + "                                            <th>Successe</th>\n"
                 + "                                            <th>Failed</th>\n"
-                + "					    <th>Skipped</th>\n"
                 + "					    <th>Test Score</th>\n"
                 + "                                        </tr>\n"
                 + "                                    </thead>\n"
@@ -162,7 +163,6 @@ public class GenerateReports {
                 + "                                            <th>File Name</th>\n"
                 + "                                            <th>Killed Mutants</th>\n"
                 + "                                            <th>Survived Mutants</th>\n"
-                + "                                            <th>Exceptions</th>\n"
                 + "                                            <th>Discarded</th>\n"
                 + "					    <th>Total Mutants</th>\n"
                 + "					    <th>Mutation Score</th>\n"
@@ -1144,14 +1144,18 @@ public class GenerateReports {
     }
 
     public void generateHtml(String path, ArrayList<Results> arr2, ArrayList<MutationResults> arr, ArrayList<ResultsForEachFile> arr3) {
-
+        
         File mainFolder = new File(path + "\\Reports");
         File cssFolder = new File(path + "\\Reports\\assets\\css");
         try {
-
+            System.out.println("aassad");
+            System.out.println("arr2: "+arr2);
+            System.out.println("arr3: "+arr3);
+            System.out.println("arr: "+arr);
             mainFolder.mkdirs();
             cssFolder.mkdirs();
             mutationReport = printmutationTable(path, arr, arr3);
+           
             GenerateSecondPieGraph gp = new GenerateSecondPieGraph();
             String operatorsPieChart = gp.getPieString(arr3);
             String killedPieChart = "<script type=\"text/javascript\">\n"
@@ -1162,8 +1166,8 @@ public class GenerateReports {
                     + "\n"
                     + "        var data = google.visualization.arrayToDataTable([\n"
                     + "          ['State', 'Number of Mutants'],\n"
-                    + "          ['Survived', " + totalSurvived + " ],\n"
                     + "          ['Killed', " + totalKilled + " ],\n"
+                    + "          ['Survived', " + totalSurvived + " ],\n"
                     + "          ['Exceptions', " + totalExceptions + " ],\n"
                     + "          ['Discarded', " + totalSyntaxErrors + "  ]\n"
                     + "        ]);\n"
@@ -1189,7 +1193,11 @@ public class GenerateReports {
             pw.print(operatorsPieChart);
             pw.print(firstHalf2);
 
+//            testingReport = printTable(arr2);
             testingReport = printTable(arr2);
+            System.out.println("-(-(-(-(");
+            System.out.println(testingReport);
+            System.out.println("-(-(-(-(-(");
             pw.print(testingReport);
             pw.print(secondHalf);
             pw.print(MuScore);
@@ -1221,11 +1229,12 @@ public class GenerateReports {
             restString += "<td>" + arr.get(i).getExecuted() + "</td>";
             restString += "<td>" + (arr.get(i).getExecuted() - arr.get(i).getNoOfFailed()) + "</td>";
             restString += "<td>" + arr.get(i).getNoOfFailed() + "</td>";
-            restString += "<td>" + "Not yet" + "</td>";
             restString += "<td>" + df.format(((double) arr.get(i).getExecuted() - arr.get(i).getNoOfFailed()) / arr.get(i).getExecuted() * 100) + "%" + "</td>";
             restString += "</tr>";
         }
-
+        System.out.println("(-(-(-(-(-(-(-(-(-(-");
+        System.out.println(restString);
+        System.out.println("(-(-(-(-(-(-(-(-(-(-");
         return restString;
     }
 
@@ -1233,6 +1242,14 @@ public class GenerateReports {
     double mutationScore = 0;
 
     public String printmutationTable(String path, ArrayList<MutationResults> arr, ArrayList<ResultsForEachFile> arr3) {
+        System.out.println("MutationResults "+arr.size());
+        for (int i = 0; i < arr.size(); i++) {
+            System.out.println(arr.get(i));
+        }
+        System.out.println("ResultsForEachFile "+arr3.size());
+        for (int i = 0; i < arr3.size(); i++) {
+            System.out.println(arr3.get(i));
+        }
         ArrayList<Boolean> arr3Checker = new ArrayList<Boolean>();
         for (int i = 0; i < fileCode.size(); i++) {
             arr3Checker.add(false);
@@ -1247,7 +1264,6 @@ public class GenerateReports {
             restString += "<td>" + "<a href=\"" + arr.get(i).getFileName() + ".html\">" + arr.get(i).getFileName() + "</a>" + "</td>";
             restString += "<td>" + arr.get(i).getKillMutant() + "</td>";
             restString += "<td>" + arr.get(i).getSurvivedMutants() + "</td>";
-            restString += "<td>" + arr.get(i).getExceptions() + "</td>";
             restString += "<td>" + arr.get(i).getSyntaxErrors() + "</td>";
             int total = arr.get(i).getKillMutant() + arr.get(i).getSurvivedMutants() + arr.get(i).getExceptions() + arr.get(i).getSyntaxErrors();
             restString += "<td>" + total + "</td>";
@@ -1285,6 +1301,7 @@ public class GenerateReports {
         }
         //
         mutationScore = ((double) totalKilled / (totalKilled + totalSurvived)) * 100.0;
+        System.out.println("Mutation score: "+mutationScore);
         for (int i = 0; i < arr3Checker.size(); i++) {
             if (!arr3Checker.get(i)) {
                 restString += "<tr class=\"odd gradeX\">";
@@ -1293,17 +1310,18 @@ public class GenerateReports {
                 restString += "<td>" + 0 + "</td>";
                 restString += "<td>" + 0 + "</td>";
                 restString += "<td>" + 0 + "</td>";
-                restString += "<td>" + 0 + "</td>";
                 restString += "<td>" + 0 + "%" + "</td>";
                 restString += "</tr>";
-
+                
                 ArrayList<ResultsForEachFile> arr4 = new ArrayList<ResultsForEachFile>();
                 FileResults fr = new FileResults(fileCode.get(i).getFileCode(), fileCode.get(i).getFileName(), arr4);
                 GenerateReportForEachFile grf = new GenerateReportForEachFile(fr);
                 grf.generateHtmlFile(path);
             }
         }
-
+        System.out.println("(((((((((((((((((((((((");
+        System.out.println(restString);
+        System.out.println("(((((((((((((((((((((((");
         return restString;
     }
 
@@ -1319,6 +1337,20 @@ public class GenerateReports {
      */
     public void setFileCode(ArrayList<FileAsString> fileCode) {
         this.fileCode = fileCode;
+    }
+    
+    /**
+     * @return the htmlFileCode
+     */
+    public ArrayList<FileAsString> getHtmlFileCode() {
+        return htmlFileCode;
+    }
+
+    /**
+     * @param htmlFileCode the fileCode to set
+     */
+    public void setHtmlFileCode(ArrayList<FileAsString> htmlFileCode) {
+        this.htmlFileCode = htmlFileCode;
     }
 
 }

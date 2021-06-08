@@ -20,6 +20,8 @@ import Reports.MutationResults;
 import Reports.ResultsForEachFile;
 import Reports.ResultsSort;
 import TestRun.MainTestRunner;
+import TestRun.Maine2eTestRunner;
+import TestRun.RunServers;
 
 import TestRun.TestRunner;
 import java.awt.Desktop;
@@ -34,6 +36,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
  *
@@ -41,19 +44,21 @@ import org.apache.commons.io.FileUtils;
  */
 public class IonicMuTesting extends javax.swing.JFrame {
 
-    boolean[] selectedOperators = new boolean[10];
+    boolean selected;
+    boolean[] selectedOperators = new boolean[16];
     MutantsGenerator mu;
     //IncrementsOperator increment = new IncrementsOperator();
     ArrayList<File> htmlFiles = new ArrayList<File>();
     ArrayList<File> tsFiles = new ArrayList<File>();
     ArrayList<FileAsString> tsFileCodes = new ArrayList<FileAsString>();
+    ArrayList<FileAsString> htmlFileCodes = new ArrayList<FileAsString>();
     ArrayList<File> testFiles = new ArrayList<File>();
 
     /**
      * Creates new form IonicMuTesting
      */
     public IonicMuTesting() {
-
+        selected = false;
         this.setTitle("Ionic Mutation Testing");
         this.setVisible(true);
         initComponents();
@@ -71,6 +76,7 @@ public class IonicMuTesting extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         generateMutants = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         folderPath = new javax.swing.JTextField();
@@ -86,6 +92,13 @@ public class IonicMuTesting extends javax.swing.JFrame {
         emptyFunctionBlockOperator = new javax.swing.JCheckBox();
         loopOperator = new javax.swing.JCheckBox();
         statementDeletionOp = new javax.swing.JCheckBox();
+        lifeCycleOperator = new javax.swing.JCheckBox();
+        jPanel2 = new javax.swing.JPanel();
+        clickEventOp = new javax.swing.JCheckBox();
+        InterpolationOp = new javax.swing.JCheckBox();
+        structuralDirectivesOp = new javax.swing.JCheckBox();
+        GUIOp = new javax.swing.JCheckBox();
+        navCtrl = new javax.swing.JCheckBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         browse = new javax.swing.JButton();
@@ -94,6 +107,10 @@ public class IonicMuTesting extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         numberOfThreadsTF = new javax.swing.JTextField();
         recomendedThreads = new javax.swing.JLabel();
+        SelectionCB = new javax.swing.JButton();
+        unitTest = new javax.swing.JRadioButton();
+        e2eTest = new javax.swing.JRadioButton();
+        bothTest = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -112,6 +129,8 @@ public class IonicMuTesting extends javax.swing.JFrame {
         jLabel1.setText("Folder Path:");
 
         folderPath.setEditable(false);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mutation Operators"));
 
         booleanLiterals.setText("Boolean Operator");
 
@@ -136,6 +155,66 @@ public class IonicMuTesting extends javax.swing.JFrame {
 
         statementDeletionOp.setText("Statement Deletion Operator");
 
+        lifeCycleOperator.setForeground(new java.awt.Color(255, 0, 0));
+        lifeCycleOperator.setText("Life Cycle Function Removal");
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("New Operators"));
+
+        clickEventOp.setForeground(new java.awt.Color(255, 0, 0));
+        clickEventOp.setText("Click Event Operator");
+
+        InterpolationOp.setForeground(new java.awt.Color(255, 0, 0));
+        InterpolationOp.setText("Data Binding Replacement Operator");
+        InterpolationOp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InterpolationOpActionPerformed(evt);
+            }
+        });
+
+        structuralDirectivesOp.setForeground(new java.awt.Color(255, 0, 0));
+        structuralDirectivesOp.setText("Structural directives Replace Operator");
+
+        GUIOp.setForeground(new java.awt.Color(255, 0, 0));
+        GUIOp.setText("GUI component Removal Operator");
+
+        navCtrl.setForeground(new java.awt.Color(255, 0, 51));
+        navCtrl.setText("NavController Replacement");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(structuralDirectivesOp))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(InterpolationOp)
+                            .addComponent(GUIOp)
+                            .addComponent(clickEventOp)
+                            .addComponent(navCtrl))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(InterpolationOp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(structuralDirectivesOp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(GUIOp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(clickEventOp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(navCtrl)
+                .addGap(0, 22, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -143,48 +222,62 @@ public class IonicMuTesting extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(relationalOperations)
-                    .addComponent(mathOperations)
+                    .addComponent(booleanLiterals)
+                    .addComponent(equalityOperator)
+                    .addComponent(logicalOperator)
                     .addComponent(increments)
+                    .addComponent(mathOperations)
+                    .addComponent(relationalOperations)
                     .addComponent(ifStatementOperator)
+                    .addComponent(emptyFunctionBlockOperator))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(booleanLiterals)
-                            .addComponent(equalityOperator)
-                            .addComponent(logicalOperator))
-                        .addGap(100, 100, 100)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(statementDeletionOp)
-                            .addComponent(loopOperator)
-                            .addComponent(emptyFunctionBlockOperator))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(statementDeletionOp)
+                                    .addComponent(loopOperator))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lifeCycleOperator)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(70, 70, 70)))
                 .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(booleanLiterals)
-                    .addComponent(emptyFunctionBlockOperator))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(equalityOperator)
-                    .addComponent(loopOperator))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(logicalOperator)
-                    .addComponent(statementDeletionOp))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(increments)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mathOperations)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(relationalOperations)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ifStatementOperator)
-                .addContainerGap(50, Short.MAX_VALUE))
             .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(34, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(loopOperator)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(statementDeletionOp)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lifeCycleOperator)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(booleanLiterals)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(equalityOperator)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(logicalOperator)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(increments)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(mathOperations)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(relationalOperations)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ifStatementOperator)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(emptyFunctionBlockOperator))))
         );
 
         jTextArea1.setColumns(20);
@@ -208,6 +301,38 @@ public class IonicMuTesting extends javax.swing.JFrame {
         pb.setStringPainted(true);
 
         jLabel2.setText("Number of threads:");
+
+        SelectionCB.setText("Select All");
+        SelectionCB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SelectionCBActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(unitTest);
+        unitTest.setText("Unit Testning Only");
+        unitTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unitTestActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(e2eTest);
+        e2eTest.setText("E2E Testing Only");
+        e2eTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                e2eTestActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(bothTest);
+        bothTest.setSelected(true);
+        bothTest.setText("Both");
+        bothTest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bothTestActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -247,25 +372,36 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 .addGap(33, 33, 33))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(126, 126, 126)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(pb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(generateMutants, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(43, 43, 43)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(numberOfThreadsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(SelectionCB)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(recomendedThreads)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(92, 92, 92)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pb, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(generateMutants, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(numberOfThreadsTF, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(recomendedThreads)))
+                .addGap(93, 93, 93)
+                .addComponent(unitTest)
+                .addGap(18, 18, 18)
+                .addComponent(e2eTest)
+                .addGap(18, 18, 18)
+                .addComponent(bothTest)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -278,12 +414,19 @@ public class IonicMuTesting extends javax.swing.JFrame {
                     .addComponent(browse))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(numberOfThreadsTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(recomendedThreads))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(unitTest)
+                    .addComponent(e2eTest)
+                    .addComponent(bothTest))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(recomendedThreads, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(numberOfThreadsTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel2)
+                        .addComponent(SelectionCB)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(generateMutants)
                     .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -306,7 +449,6 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 return null;
             }
         }.execute();
-
     }//GEN-LAST:event_generateMutantsActionPerformed
     ArrayList<String> testFilesPathes;
     int threadNumbers;
@@ -314,6 +456,8 @@ public class IonicMuTesting extends javax.swing.JFrame {
     public void doWork() {
         threadNumbers = Integer.parseInt(numberOfThreadsTF.getText());
         String path = folderPath.getText();
+        //System.out.println(path);
+        path = "D:\\projects\\infoapp";
         if (path.equals("")) {
             JOptionPane.showMessageDialog(null, "Please Enter a valid path");
 
@@ -321,7 +465,7 @@ public class IonicMuTesting extends javax.swing.JFrame {
             jTextArea1.append("\nCopying " + threadNumbers + " Copies\n");
             ExecutorService ex = Executors.newFixedThreadPool(threadNumbers);
             for (int i = 0; i < threadNumbers; i++) {
-                ex.submit(new OriginalCopiesClass(path, i));
+             //   ex.submit(new OriginalCopiesClass(path, i));
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException ex1) {
@@ -335,7 +479,7 @@ public class IonicMuTesting extends javax.swing.JFrame {
             } catch (InterruptedException ex1) {
                 System.out.println(ex1.toString());
             }
-            
+
             long start = System.currentTimeMillis();
             jTextArea1.append("Testing Enviroment..\n");
             FilesFounder ff = new FilesFounder();
@@ -345,40 +489,44 @@ public class IonicMuTesting extends javax.swing.JFrame {
             } catch (IOException e) {
                 Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, e);
             }
-            GenerateTestFiles gt = new GenerateTestFiles();
-            gt.generateFiles(testFiles, path);
+//            GenerateTestFiles gt = new GenerateTestFiles();
+//            gt.generateFiles(testFiles, path);
             for (int i = 0; i < testFiles.size(); i++) {
                 System.out.println(testFiles.get(i).getAbsolutePath());
             }
             MainTestRunner mtr = new MainTestRunner(path, testFiles);
-            mtr.beforeRunTestFileByFile(path);
+            if (unitTest.isSelected()) {
+                mtr.beforeRunTestFileByFile2(path);
+            } else if (e2eTest.isSelected()) {
+                mtr.rune2eTest(path);
+            } else if (bothTest.isSelected()) {
+                mtr.beforeRunTestFileByFile2(path);
+                mtr.rune2eTest(path);
+            }
 
+            // if condition to run e2e
             ArrayList<Results> arr2 = AnalyzeResults.getArr2();
             System.out.println(arr2.size());
             for (int i = 0; i < arr2.size(); i++) {
                 System.out.println(arr2.get(i));
             }
             /////////////////////
-            
-            
+
             //ExecutorService ex0 = Executors.newFixedThreadPool(threadNumbers);
             //int noOfTestFiles = testFiles.size();
-           // for (int i = 0; i < testFiles.size(); i++) {
-                //ex.submit(new MainTestRunner(path, testFiles));
-    
-              // System.out.println("File: "+testFiles.get(i).getName()+" Will test Now");
-               //     ex0.submit(new MainTestRunner(path, testFiles, testFiles.get(i), threadNumbers, i));
-                    
-              //  }
-               // noOfTestFiles--;
-
+            // for (int i = 0; i < testFiles.size(); i++) {
+            //ex.submit(new MainTestRunner(path, testFiles));
+            // System.out.println("File: "+testFiles.get(i).getName()+" Will test Now");
+            //     ex0.submit(new MainTestRunner(path, testFiles, testFiles.get(i), threadNumbers, i));
+            //  }
+            // noOfTestFiles--;
 //                try {
 //                    Thread.sleep(50);
 //                } catch (InterruptedException ex1) {
 //                    Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, ex1);
 //                }
 //            }
-           // ex0.shutdown();
+            // ex0.shutdown();
 //            try {
 //                ex0.awaitTermination(1, TimeUnit.DAYS);
 //            } catch (InterruptedException ex1) {
@@ -392,7 +540,6 @@ public class IonicMuTesting extends javax.swing.JFrame {
             jTextArea1.append("Enviroment is OK!!\n");
 
             // copying 4 project copies .Mutant0, .Mutant1, .Mutant2, .Mutant3
-            
 //            OriginalCopiesClass o1 = new OriginalCopiesClass(path, 0);
 //            OriginalCopiesClass o2 = new OriginalCopiesClass(path, 1);
 //            OriginalCopiesClass o3 = new OriginalCopiesClass(path, 2);
@@ -406,7 +553,6 @@ public class IonicMuTesting extends javax.swing.JFrame {
 //            t3.start();
 //            t4.start();
             //JOptionPane.showMessageDialog(null, "Done Copying");
-
 //            try {
 ////                t1.join();
 ////                t2.join();
@@ -421,11 +567,13 @@ public class IonicMuTesting extends javax.swing.JFrame {
             jTextArea1.append("Generate Mutants...\n");
 
             //jTextArea1.setText("Generate mutants...\n");
-            String path2 = path + "\\.Mutant0\\src";
+            String path2 = path + "\\_Mutant0\\src";
             try {
                 htmlFiles = ff.getHtmlFiles(path2);
+
+                htmlFileCodes = ff.getHtmlFileCode();
                 tsFiles = ff.getTsFiles(path2);
-                tsFileCodes = ff.getFileCode();
+                tsFileCodes = ff.getTsFileCode();
                 //System.out.println(tsFiles.size());
                 if (booleanLiterals.isSelected()) {
                     //System.out.println("Yes");
@@ -461,11 +609,33 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 if (statementDeletionOp.isSelected()) {
                     selectedOperators[9] = true;
                 }
-                System.out.println("");
+                if (clickEventOp.isSelected()) {
+                    selectedOperators[10] = true;
+                }
+                if (lifeCycleOperator.isSelected()) {
+                    selectedOperators[11] = true;
+                }
+                if (InterpolationOp.isSelected()) {
+                    selectedOperators[12] = true;
+                }
+                if (structuralDirectivesOp.isSelected()) {
+                    selectedOperators[13] = true;
+                }
+                if (GUIOp.isSelected()) {
+                    selectedOperators[14] = true;
+                }
+                if (navCtrl.isSelected()) {
+                    selectedOperators[15] = true;
+                }
                 mu = new MutantsGenerator();
                 for (int i = 0; i < tsFiles.size(); i++) {
+                    //COMEBACK
                     mu.createMutantsFirstStep(path, tsFiles.get(i), selectedOperators, threadNumbers);
                     //increment.makeMutant(path, tsFiles.get(i));
+                }
+                for (int i = 0; i < htmlFiles.size(); i++) {
+                    //COMEBACK
+                   mu.createMutantsFirstStep(path, htmlFiles.get(i), selectedOperators, threadNumbers);
                 }
                 pb.setMaximum(mu.getCounter());
                 //System.out.println(mu.getCounter());
@@ -477,11 +647,40 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 } catch (Exception e) {
 
                 }
+
+                ExecutorService ex4 = Executors.newFixedThreadPool(threadNumbers);
+                if (bothTest.isSelected() || e2eTest.isSelected()) {
+                    for (int i = 0; i < threadNumbers; i++) {
+                        RunServers.changePort(path+"\\_Mutant"+i, i);
+                        Thread.sleep(500);
+                    }
+                    
+                    for (int i = 0; i < threadNumbers; i++) {
+                        ex4.submit(new RunServers(path + "\\_Mutant" + i, i));
+                        Thread.sleep(2000);
+                    }
+
+                    ex4.shutdown();
+
+                    try {
+                        ex4.awaitTermination(1, TimeUnit.DAYS);
+
+                    } catch (InterruptedException ex1) {
+                        System.out.println(ex1.toString());
+                    }
+
+                }
+                System.out.println("5 seconds starts");
+                Thread.sleep(5000);
+                System.out.println("5 seconds ends");
+                System.out.println("HELLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
                 ExecutorService ex2 = Executors.newFixedThreadPool(threadNumbers);
                 for (int i = 0; i < threadNumbers; i++) {
-                    ex2.submit(new TestRunner(path, path + "\\.Mutant", i, testFiles, testFilesPathes, threadNumbers));
+                    //IMPORTANT
+                    ex2.submit(new TestRunner(path, path + "\\_Mutant", i, testFiles, testFilesPathes, threadNumbers, unitTest.isSelected(), e2eTest.isSelected(), bothTest.isSelected()));
                     Thread.sleep(100);
                 }
+
                 ex2.shutdown();
 
                 try {
@@ -489,6 +688,7 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 } catch (InterruptedException ex1) {
                     System.out.println(ex1.toString());
                 }
+                //new TestRunner(path, path+ "\\.Mutant", 0, testFiles, testFilesPathes, 1);
                 pb.setValue(mu.getCounter());
                 jTextArea1.append("Test Done!!! Check the report for the final result\n");
                 ArrayList<Results> arr = AnalyzeResults.getArr();
@@ -501,6 +701,9 @@ public class IonicMuTesting extends javax.swing.JFrame {
                 System.out.println("--------------");
                 ResultsSort rs = new ResultsSort(arr2, arr, arr3);
                 ArrayList<MutationResults> mutationResults = rs.sortMutationResults();
+                System.out.println("arr: " + arr.size());
+                System.out.println("arr2: " + arr2.size());
+                System.out.println("arr3: " + arr3.size());
                 System.out.println("--------------");
                 //
                 long end = System.currentTimeMillis();
@@ -515,7 +718,18 @@ public class IonicMuTesting extends javax.swing.JFrame {
                         TimeUnit.MILLISECONDS.toSeconds(averageMutantTime) % TimeUnit.MINUTES.toSeconds(1));
                 Thread.sleep(500);
                 GenerateReports gr = new GenerateReports(totalTime, averageMutationTime);
+                for (int i = 0; i < htmlFileCodes.size(); i++) {
+                    String htmlCode = htmlFileCodes.get(i).getFileCode();
+                    String updateHtmlCode = StringEscapeUtils.escapeHtml4(htmlCode);
+                    htmlFileCodes.get(i).setFileCode(updateHtmlCode);
+                    tsFileCodes.add(htmlFileCodes.get(i));
+
+                }
+                //RunServers.closeConnections();
+
                 gr.setFileCode(tsFileCodes);
+                gr.setHtmlFileCode(htmlFileCodes);
+                //COMEBACK
                 gr.generateHtml(path, arr2, mutationResults, arr3);
                 File f = new File(path + "\\Reports\\Report.html");
                 Thread.sleep(500);
@@ -553,21 +767,21 @@ public class IonicMuTesting extends javax.swing.JFrame {
             } catch (IOException | InterruptedException e) {
                 System.out.println("here " + e);
             }
+            //try {
             try {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException ex1) {
-                    Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, ex1);
-                }
+                Thread.sleep(2000);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, ex1);
+            }
 //                FileUtils.deleteDirectory(new File(path + "\\.Mutant0"));
 //                FileUtils.deleteDirectory(new File(path + "\\.Mutant1"));
 //                FileUtils.deleteDirectory(new File(path + "\\.Mutant2"));
 //                FileUtils.deleteDirectory(new File(path + "\\.Mutant3"));
-                FileUtils.deleteDirectory(new File(path + "\\MuHubAppsTestFiles"));
-            } catch (IOException ex1) {
-                jTextArea1.append(ex1.getMessage());
-                Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+            //FileUtils.deleteDirectory(new File(path + "\\MuHubAppsTestFiles"));
+//            } catch (IOException ex1) {
+//                jTextArea1.append(ex1.getMessage());
+//                Logger.getLogger(IonicMuTesting.class.getName()).log(Level.SEVERE, null, ex1);
+//            }
 
         }
     }
@@ -621,13 +835,122 @@ public class IonicMuTesting extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, "This Software Made By: Shazly Ahmed\nMaster of Software Engineering\nNational Egyptian E-Learning University\nEmail:smagdy@eelu.edu.eg - shazly.eelu.eg@gmail.com");
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
+    private void SelectionCBActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectionCBActionPerformed
+        // TODO add your handling code here:
+        if (!selected) {
+            if (unitTest.isSelected()) {
+
+                booleanLiterals.setSelected(true);
+
+                emptyFunctionBlockOperator.setSelected(true);
+                equalityOperator.setSelected(true);
+                ifStatementOperator.setSelected(true);
+                increments.setSelected(true);
+                lifeCycleOperator.setSelected(true);
+                logicalOperator.setSelected(true);
+                loopOperator.setSelected(true);
+                mathOperations.setSelected(true);
+                relationalOperations.setSelected(true);
+                statementDeletionOp.setSelected(true);
+
+                SelectionCB.setText("Unselect All");
+                selected = true;
+            } else {
+                GUIOp.setSelected(true);
+                InterpolationOp.setSelected(true);
+                booleanLiterals.setSelected(true);
+                clickEventOp.setSelected(true);
+                emptyFunctionBlockOperator.setSelected(true);
+                equalityOperator.setSelected(true);
+                ifStatementOperator.setSelected(true);
+                increments.setSelected(true);
+                lifeCycleOperator.setSelected(true);
+                logicalOperator.setSelected(true);
+                loopOperator.setSelected(true);
+                mathOperations.setSelected(true);
+                relationalOperations.setSelected(true);
+                statementDeletionOp.setSelected(true);
+                structuralDirectivesOp.setSelected(true);
+                navCtrl.setSelected(true);
+                SelectionCB.setText("Unselect All");
+                selected = true;
+            }
+
+        } else {
+            GUIOp.setSelected(false);
+            InterpolationOp.setSelected(false);
+            booleanLiterals.setSelected(false);
+            clickEventOp.setSelected(false);
+            emptyFunctionBlockOperator.setSelected(false);
+            equalityOperator.setSelected(false);
+            ifStatementOperator.setSelected(false);
+            increments.setSelected(false);
+            lifeCycleOperator.setSelected(false);
+            logicalOperator.setSelected(false);
+            loopOperator.setSelected(false);
+            mathOperations.setSelected(false);
+            relationalOperations.setSelected(false);
+            statementDeletionOp.setSelected(false);
+            structuralDirectivesOp.setSelected(false);
+            SelectionCB.setText("Select All");
+            navCtrl.setSelected(false);
+            selected = false;
+        }
+
+
+    }//GEN-LAST:event_SelectionCBActionPerformed
+
+    private void InterpolationOpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InterpolationOpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_InterpolationOpActionPerformed
+
+    private void unitTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitTestActionPerformed
+        // TODO add your handling code here:
+        GUIOp.setSelected(false);
+        navCtrl.setSelected(false);
+        InterpolationOp.setSelected(false);
+        structuralDirectivesOp.setSelected(false);
+        clickEventOp.setSelected(false);
+        GUIOp.setEnabled(false);
+        InterpolationOp.setEnabled(false);
+        structuralDirectivesOp.setEnabled(false);
+        clickEventOp.setEnabled(false);
+        navCtrl.setEnabled(false);
+
+    }//GEN-LAST:event_unitTestActionPerformed
+
+    private void e2eTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e2eTestActionPerformed
+        // TODO add your handling code here:
+        GUIOp.setEnabled(true);
+        navCtrl.setEnabled(true);
+        InterpolationOp.setEnabled(true);
+        structuralDirectivesOp.setEnabled(true);
+        clickEventOp.setEnabled(true);
+    }//GEN-LAST:event_e2eTestActionPerformed
+
+    private void bothTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bothTestActionPerformed
+        // TODO add your handling code here:
+        GUIOp.setEnabled(true);
+        navCtrl.setEnabled(true);
+        InterpolationOp.setEnabled(true);
+        structuralDirectivesOp.setEnabled(true);
+        clickEventOp.setEnabled(true);
+    }//GEN-LAST:event_bothTestActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox GUIOp;
+    private javax.swing.JCheckBox InterpolationOp;
+    private javax.swing.JButton SelectionCB;
     private javax.swing.JCheckBox booleanLiterals;
+    private javax.swing.JRadioButton bothTest;
     private javax.swing.JButton browse;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JCheckBox clickEventOp;
+    private javax.swing.JRadioButton e2eTest;
     private javax.swing.JCheckBox emptyFunctionBlockOperator;
     private javax.swing.JCheckBox equalityOperator;
     private javax.swing.JButton exitButton;
@@ -643,16 +966,21 @@ public class IonicMuTesting extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JCheckBox lifeCycleOperator;
     private javax.swing.JCheckBox logicalOperator;
     private javax.swing.JCheckBox loopOperator;
     private javax.swing.JCheckBox mathOperations;
+    private javax.swing.JCheckBox navCtrl;
     private javax.swing.JTextField numberOfThreadsTF;
     private static javax.swing.JProgressBar pb;
     private javax.swing.JLabel recomendedThreads;
     private javax.swing.JCheckBox relationalOperations;
     private javax.swing.JCheckBox statementDeletionOp;
+    private javax.swing.JCheckBox structuralDirectivesOp;
+    private javax.swing.JRadioButton unitTest;
     // End of variables declaration//GEN-END:variables
 }
